@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_owed3")
+AudioEnabled = false
 MagicHealth = Dictionary[int, int]({
 0: 20,
 1: 20,
