@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dn0n8j5rahu1r"]
 
-[ext_resource type="PackedScene" uid="uid://cltdlhdmsob3m" path="res://Scenes/Magic/HalfSection.tscn" id="1_u1o8i"]
 [ext_resource type="PackedScene" uid="uid://dpyrfr1h18i75" path="res://Audio/RandomHealDamageStreamPlayer.tscn" id="1_xj7ha"]
+[ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/MagicSection.tscn" id="3_io64v"]
 [ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="3_xj7ha"]
 
 [node name="Node2D" type="Node2D"]
@@ -10,17 +10,17 @@
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="TopControl" parent="CanvasLayer" instance=ExtResource("1_u1o8i")]
-IsTop = true
-BackgroundColor = Color(0.133333, 0.121569, 1, 1)
+[node name="Control" parent="CanvasLayer" instance=ExtResource("3_io64v")]
+WhichSection = 4
+BackgroundColor = Color(0, 0, 0.901961, 1)
 
-[node name="BotControl" parent="CanvasLayer" instance=ExtResource("1_u1o8i")]
-BackgroundColor = Color(0.811765, 0, 0, 1)
+[node name="Control2" parent="CanvasLayer" instance=ExtResource("3_io64v")]
+WhichSection = 5
+BackgroundColor = Color(0.565138, 0, 0.127055, 1)
 
-[node name="Button" type="Button" parent="CanvasLayer" node_paths=PackedStringArray("OneVOneButton")]
-offset_right = 122.0
+[node name="ExitButton" type="Button" parent="CanvasLayer"]
+offset_right = 156.0
 offset_bottom = 96.0
 theme_override_font_sizes/font_size = 64
 text = "Back"
 script = ExtResource("3_xj7ha")
-OneVOneButton = NodePath(".")

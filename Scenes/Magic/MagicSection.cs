@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class QuarterSideWithResize : Control
+public partial class MagicSection : Control
 {
     public enum Section
     {
@@ -11,6 +11,9 @@ public partial class QuarterSideWithResize : Control
         Top,
         Bot,
     }
+
+    [Export]
+    public SaveData Data;
 
     [Export]
     public Section WhichSection;
@@ -30,44 +33,50 @@ public partial class QuarterSideWithResize : Control
     [Export]
     public Label HealthLabel;
 
-    private int Health = 20;
-
     public override void _Ready()
     {
         var screenSize = GetViewport().GetVisibleRect().Size;
         BackgroundRectangle.Color = BackgroundColor;
 
-        Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
-
         switch (WhichSection)
         {
             case Section.TopLeft:
+                Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
                 RotationDegrees = 90;
                 Position = new Vector2(screenSize.X / 2.0f, 0);
                 break;
             case Section.TopRight:
+                Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
                 RotationDegrees = -90;
                 Position = new Vector2(screenSize.X / 2.0f, screenSize.Y / 2.0f);
                 break;
             case Section.BotLeft:
+                Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
                 RotationDegrees = 90f;
                 Position = new Vector2(screenSize.X / 2.0f, screenSize.Y / 2.0f);
                 break;
             case Section.BotRight:
+                Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
                 RotationDegrees = -90f;
                 Position = new Vector2(screenSize.X / 2.0f, screenSize.Y);
                 break;
+            case Section.Top:
+                Size = new Vector2(Size.X, screenSize.Y / 2.0f);
+                RotationDegrees = 180f;
+                Position = new Vector2(Size.X, screenSize.Y / 2.0f);
+                break;
+            case Section.Bot:
+                Size = new Vector2(Size.X, screenSize.Y / 2.0f);
+                Position = new Vector2(0, screenSize.Y / 2.0f);
+                break;
             default:
-                GD.PrintErr("WTF QuarterSideWithResize");
+                GD.PrintErr("WTF MagicSection");
                 break;
         }
 
-        AddButton.ToggleMode = false;
-        SubtractButton.ToggleMode = false;
-
         AddButton.Pressed += AddPressed;
         SubtractButton.Pressed += SubtractPressed;
-        HealthLabel.Text = Health.ToString();
+        HealthLabel.Text = Data.MagicHealth[this.WhichSection].ToString();
     }
 
     public override void _ExitTree()
@@ -76,30 +85,35 @@ public partial class QuarterSideWithResize : Control
         SubtractButton.Pressed -= SubtractPressed;
     }
 
+    private void ButtonPressed(bool healed)
+    {
+        Data.MagicHealth[this.WhichSection] += healed ? 1 : -1;
+        HealthLabel.Text = Data.MagicHealth[this.WhichSection].ToString();
+        if (Data.AudioEnabled)
+        {
+            RandomAudioSound.PlayRandomSound?.Invoke(healed);
+        }
+        this.CallDeferred(nameof(this.StopHover), healed ? AddButton : SubtractButton);
+    }
+
     private void SubtractPressed()
     {
-        Health -= 1;
-        HealthLabel.Text = Health.ToString();
-        RandomAudioSound.PlayRandomSound?.Invoke(false);
-        this.CallDeferred(nameof(this.StopHover), SubtractButton);
+        ButtonPressed(false);
     }
     private void AddPressed()
     {
-        Health += 1;
-        HealthLabel.Text = Health.ToString();
-        RandomAudioSound.PlayRandomSound?.Invoke(true);
-        this.CallDeferred(nameof(this.StopHover), AddButton);
+        ButtonPressed(true);
     }
 
     private void StopHover(Button button)
     {
         button.ReleaseFocus();
-        
+
         // Temporarily disable mouse filtering
-        button.MouseFilter = Control.MouseFilterEnum.Ignore;
+        button.MouseFilter = MouseFilterEnum.Ignore;
 
         // Re-enable mouse filtering (reset to the original state)
-        button.MouseFilter = Control.MouseFilterEnum.Stop;
+        button.MouseFilter = MouseFilterEnum.Stop;
     }
 
 }

@@ -2,21 +2,18 @@ using Godot;
 
 public partial class ExitButton : Button
 {
-    [Export]
-    public Button OneVOneButton;
-
     public override void _Ready()
     {
-        OneVOneButton.Pressed += OneVOneButtonPressed;
+        this.Pressed += OnButtonPressed;
     }
 
     public override void _ExitTree()
     {
-        OneVOneButton.Pressed -= OneVOneButtonPressed;
+        this.Pressed -= OnButtonPressed;
     }
 
-    private void OneVOneButtonPressed()
+    private void OnButtonPressed()
     {
-        GetTree().ChangeSceneToFile("res://Scenes/HomeScreen.tscn");
+        GetTree().ChangeSceneToFile("res://Scenes/Home/HomeScreen.tscn");
     }
 }

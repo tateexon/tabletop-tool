@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dogevnscyvp40"]
 
 [ext_resource type="PackedScene" uid="uid://dpyrfr1h18i75" path="res://Audio/RandomHealDamageStreamPlayer.tscn" id="1_mfcfx"]
-[ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/QuarterSection.tscn" id="2_dtlr8"]
+[ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/MagicSection.tscn" id="2_dtlr8"]
 [ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="3_m57ip"]
 
 [node name="Node2D" type="Node2D"]
@@ -25,10 +25,9 @@ BackgroundColor = Color(0.420661, 0.0184413, 0.533295, 1)
 WhichSection = 3
 BackgroundColor = Color(5.29438e-07, 0.375001, 0.0858196, 1)
 
-[node name="Button" type="Button" parent="CanvasLayer" node_paths=PackedStringArray("OneVOneButton")]
+[node name="ExitButton" type="Button" parent="CanvasLayer"]
 offset_right = 122.0
 offset_bottom = 96.0
 theme_override_font_sizes/font_size = 64
 text = "Back"
 script = ExtResource("3_m57ip")
-OneVOneButton = NodePath(".")

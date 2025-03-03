@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://cn6p80pxf18ka"]
+[gd_scene load_steps=7 format=3 uid="uid://cn6p80pxf18ka"]
 
 [ext_resource type="Script" uid="uid://cokljqx6h3jhw" path="res://Scenes/MagicHBoxContainer.cs" id="1_1b72j"]
 [ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="1_dytv0"]
-[ext_resource type="Script" uid="uid://ckngo20d0gwpo" path="res://Scenes/HomeScreen.cs" id="1_kvy12"]
+[ext_resource type="Script" uid="uid://ckngo20d0gwpo" path="res://Scenes/Home/HomeScreen.cs" id="1_kvy12"]
+[ext_resource type="Script" uid="uid://bjsk6cdr01xmh" path="res://Scenes/Home/AudioEnableButton.cs" id="3_toqq7"]
+[ext_resource type="Resource" uid="uid://n3gsy7652y5f" path="res://Resources/SaveData.tres" id="4_satmt"]
+[ext_resource type="Script" uid="uid://dylpg5glqcdlq" path="res://Scenes/Home/ResetDataButton.cs" id="5_3jurr"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -36,6 +39,26 @@ theme_override_constants/margin_bottom = 100
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_dytv0")
+theme_override_constants/separation = 30
+
+[node name="AudioEnableButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_dytv0")
+text = "Audio
+"
+script = ExtResource("3_toqq7")
+Data = ExtResource("4_satmt")
+
+[node name="ResetDataButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Reset Data"
+script = ExtResource("5_3jurr")
+Data = ExtResource("4_satmt")
 
 [node name="Magic-HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" node_paths=PackedStringArray("OneVOneButton", "OneVOneVOneVOneButton")]
 layout_mode = 2

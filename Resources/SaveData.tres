@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SaveData" load_steps=2 format=3 uid="uid://n3gsy7652y5f"]
+
+[ext_resource type="Script" uid="uid://luyw0d8heu5w" path="res://Resources/SaveData.cs" id="1_owed3"]
+
+[resource]
+script = ExtResource("1_owed3")
+MagicHealth = Dictionary[int, int]({
+0: 20,
+1: 20,
+2: 20,
+3: 20,
+4: 20,
+5: 20
+})
+metadata/_custom_type_script = "uid://luyw0d8heu5w"
