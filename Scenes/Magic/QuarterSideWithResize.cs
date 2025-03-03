@@ -1,10 +1,19 @@
 using Godot;
 
-public partial class SideWithResize : Control
+public partial class QuarterSideWithResize : Control
 {
+    public enum Section
+    {
+        TopLeft,
+        TopRight,
+        BotLeft,
+        BotRight,
+        Top,
+        Bot,
+    }
 
     [Export]
-    public bool IsTop;
+    public Section WhichSection;
 
     [Export]
     public Color BackgroundColor;
@@ -28,16 +37,29 @@ public partial class SideWithResize : Control
         var screenSize = GetViewport().GetVisibleRect().Size;
         BackgroundRectangle.Color = BackgroundColor;
 
-        Size = new Vector2(Size.X, screenSize.Y / 2.0f);
+        Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
 
-        if (IsTop)
-        { 
-            RotationDegrees = 180f;
-            Position = new Vector2(Size.X, screenSize.Y / 2.0f);
-        }
-        else
+        switch (WhichSection)
         {
-            Position = new Vector2(0, screenSize.Y / 2.0f);
+            case Section.TopLeft:
+                RotationDegrees = 90;
+                Position = new Vector2(screenSize.X / 2.0f, 0);
+                break;
+            case Section.TopRight:
+                RotationDegrees = -90;
+                Position = new Vector2(screenSize.X / 2.0f, screenSize.Y / 2.0f);
+                break;
+            case Section.BotLeft:
+                RotationDegrees = 90f;
+                Position = new Vector2(screenSize.X / 2.0f, screenSize.Y / 2.0f);
+                break;
+            case Section.BotRight:
+                RotationDegrees = -90f;
+                Position = new Vector2(screenSize.X / 2.0f, screenSize.Y);
+                break;
+            default:
+                GD.PrintErr("WTF QuarterSideWithResize");
+                break;
         }
 
         AddButton.ToggleMode = false;

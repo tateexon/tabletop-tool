@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpocbupnyc83k"]
+
+[ext_resource type="Script" uid="uid://cb2ibhjee8x57" path="res://Scenes/Magic/QuarterSideWithResize.cs" id="1_m0tlk"]
+[ext_resource type="Theme" uid="uid://cgsdl6caefuhw" path="res://Scenes/Magic/1v1Theme.tres" id="2_e6voj"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("BackgroundRectangle", "AddButton", "SubtractButton", "HealthLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+script = ExtResource("1_m0tlk")
+BackgroundColor = Color(1, 1, 1, 0)
+BackgroundRectangle = NodePath("MarginContainer/ColorRect")
+AddButton = NodePath("MarginContainer/HBoxContainer/AddButton")
+SubtractButton = NodePath("MarginContainer/HBoxContainer/SubtractButton")
+HealthLabel = NodePath("MarginContainer/HBoxContainer/HealthLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="AddButton" type="Button" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_e6voj")
+theme_override_font_sizes/font_size = 100
+text = "+"
+
+[node name="HealthLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 300
+text = "20"
+horizontal_alignment = 1
+
+[node name="SubtractButton" type="Button" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_e6voj")
+theme_override_font_sizes/font_size = 100
+text = "-"

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dn0n8j5rahu1r"]
 
-[ext_resource type="PackedScene" uid="uid://cltdlhdmsob3m" path="res://Scenes/Magic/1v1Side.tscn" id="1_u1o8i"]
+[ext_resource type="PackedScene" uid="uid://cltdlhdmsob3m" path="res://Scenes/Magic/HalfSection.tscn" id="1_u1o8i"]
 [ext_resource type="PackedScene" uid="uid://dpyrfr1h18i75" path="res://Audio/RandomHealDamageStreamPlayer.tscn" id="1_xj7ha"]
 [ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="3_xj7ha"]
 
