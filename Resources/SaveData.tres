@@ -13,4 +13,6 @@ MagicHealth = Dictionary[int, int]({
 4: 20,
 5: 20
 })
+NumberOfDice = 2
+DiceSize = 6
 metadata/_custom_type_script = "uid://luyw0d8heu5w"

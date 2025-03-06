@@ -12,6 +12,19 @@ public partial class SaveData : Resource
     [Export]
     public Dictionary<MagicSection.Section, int> MagicHealth;
 
+    // roll dice
+    [Export]
+    public int NumberOfDice;
+
+    [Export]
+    public int DiceSize;
+
+    public void Reset()
+    {
+        ResetMagicHealth();
+        ResetDice();
+    }
+
     public void ResetMagicHealth()
     {
         MagicHealth = new Dictionary<MagicSection.Section, int>();
@@ -20,5 +33,11 @@ public partial class SaveData : Resource
         {
             MagicHealth[n] = 20;
         }
+    }
+
+    public void ResetDice()
+    {
+        NumberOfDice = 2;
+        DiceSize = 6;
     }
 }

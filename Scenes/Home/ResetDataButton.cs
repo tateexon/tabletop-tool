@@ -17,6 +17,6 @@ public partial class ResetDataButton : Button
 
     private void OnPressed()
     {
-        Data.ResetMagicHealth();
+        Data.Reset();
     }
 }

@@ -1,6 +1,11 @@
-[gd_scene format=3 uid="uid://bfsrvr8tl2k5u"]
+[gd_scene load_steps=3 format=3 uid="uid://bfsrvr8tl2k5u"]
 
-[node name="DiceGridContainerItemLabel" type="Label"]
+[ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="1_yhuwv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5jjka"]
+bg_color = Color(0.146628, 0.225158, 0.493617, 1)
+
+[node name="DiceGridContainerItemLabel" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -8,5 +13,17 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
-theme_override_font_sizes/font_size = 40
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_yhuwv")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5jjka")
+text = "Text"
 horizontal_alignment = 1
+vertical_alignment = 1

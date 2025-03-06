@@ -61,28 +61,28 @@ public partial class DiceGridContainer : GridContainer
 	}
 
 	public void SpawnLabels(List<int> numbers)
-    {
-        if (GridContainerLabelScene == null)
-        {
-            GD.PrintErr("LabelScene is not assigned!");
-            return;
-        }
+	{
+		if (GridContainerLabelScene == null)
+		{
+			GD.PrintErr("LabelScene is not assigned!");
+			return;
+		}
 
 		foreach (Node child in GetChildren())
 		{
 			child.QueueFree();
 		}
 
-        for (int i = 0; i < numbers.Count; i++)
-        {
-            // Instantiate the Label scene
-            Label labelInstance = (Label)GridContainerLabelScene.Instantiate();
+		for (int i = 0; i < numbers.Count; i++)
+		{
+			// Instantiate the Label scene
+			MarginContainer labelInstance = (MarginContainer)GridContainerLabelScene.Instantiate();
 
-            // Set the text of the label (optional)
-            labelInstance.Text = $"{numbers[i]}";
+			// Set the text of the label (optional)
+			labelInstance.GetChild<Label>(0).Text = $"{numbers[i]}";
 
-            // Add the label to the GridContainer
-            AddChild(labelInstance);
-        }
-    }
+			// Add the label to the GridContainer
+			AddChild(labelInstance);
+		}
+	}
 }
