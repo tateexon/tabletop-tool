@@ -1,6 +1,9 @@
-public enum GameMode
+namespace Save
 {
-    None,
-    Magic60Card,
-    MagicCommander,
+    public enum GameMode
+    {
+        None,
+        Magic60Card,
+        MagicCommander,
+    }
 }
