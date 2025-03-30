@@ -4,10 +4,16 @@ using Godot;
 public partial class MagicHBoxContainer : HBoxContainer
 {
     [Export]
+    public SaveData Data;
+
+    [Export]
     public Button OneVOneButton;
 
     [Export]
     public Button OneVOneVOneVOneButton;
+
+    [Export]
+    public GameMode GameMode;
 
     public override void _Ready()
     {
@@ -23,11 +29,13 @@ public partial class MagicHBoxContainer : HBoxContainer
 
     private void OneVOneButtonPressed()
     {
+        this.Data.GameMode = this.GameMode;
         GetTree().ChangeSceneToFile("res://Scenes/Magic/1v1.tscn");
     }
 
     private void OneVOneVOneVOneButtonPressed()
     {
+        this.Data.GameMode = this.GameMode;
         GetTree().ChangeSceneToFile("res://Scenes/Magic/1v1v1v1.tscn");
     }
 }

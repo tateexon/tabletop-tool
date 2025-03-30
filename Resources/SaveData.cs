@@ -7,17 +7,20 @@ using System;
 public partial class SaveData : Resource
 {
     [Export]
-    public bool AudioEnabled;
+    public bool AudioEnabled { get; set; }
 
     [Export]
-    public Dictionary<MagicSection.Section, int> MagicHealth;
+    private Dictionary<GameMode, Dictionary<Section, int>> MagicHealth { get; set; }
 
     // roll dice
     [Export]
-    public int NumberOfDice;
+    public int NumberOfDice { get; set; }
 
     [Export]
-    public int DiceSize;
+    public int DiceSize { get; set; }
+
+    [Export]
+    public GameMode GameMode { get; set; }
 
     public void Reset()
     {
@@ -27,12 +30,58 @@ public partial class SaveData : Resource
 
     public void ResetMagicHealth()
     {
-        MagicHealth = new Dictionary<MagicSection.Section, int>();
-        System.Array values = Enum.GetValues(typeof(MagicSection.Section));
-        foreach (MagicSection.Section n in values)
+        foreach (var mode in MagicHealth)
         {
-            MagicHealth[n] = 20;
+            MagicHealth[mode.Key] = new Dictionary<Section, int>();
+            System.Array values = Enum.GetValues(typeof(Section));
+            foreach (Section n in values)
+            {
+                switch (mode.Key)
+                {
+                    case GameMode.Magic60Card:
+                        MagicHealth[mode.Key][n] = 20;
+                        break;
+                    case GameMode.MagicCommander:
+                        MagicHealth[mode.Key][n] = 40;
+                        break;
+                    default:
+                        GD.PrintErr($"WTF Happened resetting magic health values? {mode.Key}");
+                        break;
+                }
+            }
         }
+    }
+
+    public int GetMagicHealth(Section s)
+    {
+        if (this.MagicHealth == null)
+        {
+            this.MagicHealth = new Dictionary<GameMode, Dictionary<Section, int>>();
+            this.ResetMagicHealth();
+        }
+
+        if (this.GameMode.Equals(GameMode.None))
+        {
+            return 0;
+        }
+
+        return this.MagicHealth[this.GameMode][s];
+    }
+
+    public void SetMagicHealth(Section s, int value)
+    {
+        if (this.MagicHealth == null)
+        {
+            this.MagicHealth = new Dictionary<GameMode, Dictionary<Section, int>>();
+            this.ResetMagicHealth();
+        }
+
+        if (this.GameMode.Equals(GameMode.None))
+        {
+            return;
+        }
+
+        this.MagicHealth[this.GameMode][s] = value;
     }
 
     public void ResetDice()

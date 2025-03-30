@@ -2,16 +2,6 @@ using Godot;
 
 public partial class MagicSection : Control
 {
-    public enum Section
-    {
-        TopLeft,
-        TopRight,
-        BotLeft,
-        BotRight,
-        Top,
-        Bot,
-    }
-
     [Export]
     public SaveData Data;
 
@@ -36,27 +26,29 @@ public partial class MagicSection : Control
     public override void _Ready()
     {
         var screenSize = GetViewport().GetVisibleRect().Size;
+        screenSize.Y -= 25;
+        var thisSizeY = Size.Y - 25;
         BackgroundRectangle.Color = BackgroundColor;
 
         switch (WhichSection)
         {
             case Section.TopLeft:
-                Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
+                Size = new Vector2(thisSizeY / 2.0f, screenSize.X / 2.0f);
                 RotationDegrees = 90;
                 Position = new Vector2(screenSize.X / 2.0f, 0);
                 break;
             case Section.TopRight:
-                Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
+                Size = new Vector2(thisSizeY / 2.0f, screenSize.X / 2.0f);
                 RotationDegrees = -90;
                 Position = new Vector2(screenSize.X / 2.0f, screenSize.Y / 2.0f);
                 break;
             case Section.BotLeft:
-                Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
+                Size = new Vector2(thisSizeY / 2.0f, screenSize.X / 2.0f);
                 RotationDegrees = 90f;
                 Position = new Vector2(screenSize.X / 2.0f, screenSize.Y / 2.0f);
                 break;
             case Section.BotRight:
-                Size = new Vector2(Size.Y / 2.0f, screenSize.X / 2.0f);
+                Size = new Vector2(thisSizeY / 2.0f, screenSize.X / 2.0f);
                 RotationDegrees = -90f;
                 Position = new Vector2(screenSize.X / 2.0f, screenSize.Y);
                 break;
@@ -76,7 +68,7 @@ public partial class MagicSection : Control
 
         AddButton.Pressed += AddPressed;
         SubtractButton.Pressed += SubtractPressed;
-        HealthLabel.Text = Data.MagicHealth[this.WhichSection].ToString();
+        HealthLabel.Text = Data.GetMagicHealth(this.WhichSection).ToString();
     }
 
     public override void _ExitTree()
@@ -87,8 +79,10 @@ public partial class MagicSection : Control
 
     private void ButtonPressed(bool healed)
     {
-        Data.MagicHealth[this.WhichSection] += healed ? 1 : -1;
-        HealthLabel.Text = Data.MagicHealth[this.WhichSection].ToString();
+        int health = Data.GetMagicHealth(this.WhichSection);
+        health += healed ? 1 : -1;
+        Data.SetMagicHealth(this.WhichSection, health);
+        HealthLabel.Text = Data.GetMagicHealth(this.WhichSection).ToString();
         if (Data.AudioEnabled)
         {
             RandomAudioSound.PlayRandomSound?.Invoke(healed);

@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dogevnscyvp40"]
+[gd_scene load_steps=6 format=3 uid="uid://dogevnscyvp40"]
 
 [ext_resource type="PackedScene" uid="uid://dpyrfr1h18i75" path="res://Audio/RandomHealDamageStreamPlayer.tscn" id="1_mfcfx"]
 [ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/MagicSection.tscn" id="2_dtlr8"]
 [ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="3_m57ip"]
+[ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="4_h0pvx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m57ip"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D"]
 
@@ -31,3 +35,28 @@ offset_bottom = 96.0
 theme_override_font_sizes/font_size = 64
 text = "Back"
 script = ExtResource("3_m57ip")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+offset_right = 1080.0
+offset_bottom = 1920.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+theme_override_styles/panel = SubResource("StyleBoxFlat_m57ip")
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_h0pvx")
+text = " blarg"
+metadata/_edit_use_anchors_ = true
