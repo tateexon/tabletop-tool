@@ -22,7 +22,7 @@ public partial class MagicSection : Control
     public Button SubtractButton;
 
     [Export]
-    public Label HealthLabel;
+    public RichTextLabel RichHealthLabel;
 
     public override void _Ready()
     {
@@ -69,7 +69,7 @@ public partial class MagicSection : Control
 
         AddButton.Pressed += AddPressed;
         SubtractButton.Pressed += SubtractPressed;
-        HealthLabel.Text = Data.GetMagicHealth(this.WhichSection).ToString();
+        SetHealthLabel(Data.GetMagicHealth(this.WhichSection).ToString());
     }
 
     public override void _ExitTree()
@@ -78,12 +78,17 @@ public partial class MagicSection : Control
         SubtractButton.Pressed -= SubtractPressed;
     }
 
+    private void SetHealthLabel(string text)
+    {
+        this.RichHealthLabel.Text = $"[u]{text}[/u]";
+    }
+
     private void ButtonPressed(bool healed)
     {
         int health = Data.GetMagicHealth(this.WhichSection);
         health += healed ? 1 : -1;
         Data.SetMagicHealth(this.WhichSection, health);
-        HealthLabel.Text = Data.GetMagicHealth(this.WhichSection).ToString();
+        SetHealthLabel(Data.GetMagicHealth(this.WhichSection).ToString());
         if (Data.AudioEnabled)
         {
             RandomAudioSound.PlayRandomSound?.Invoke(healed);
