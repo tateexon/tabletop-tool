@@ -1,0 +1,52 @@
+[gd_scene load_steps=14 format=3 uid="uid://di02e3wykqqw1"]
+
+[ext_resource type="Script" uid="uid://msynmmsofnuy" path="res://Audio/AudioStreamPool.cs" id="1_702vh"]
+[ext_resource type="AudioStream" uid="uid://3w5tjx6edmsl" path="res://Audio/Healing/heal_01.ogg" id="2_nmqho"]
+[ext_resource type="AudioStream" uid="uid://bgd58hf1pfg67" path="res://Audio/Healing/heal_02.ogg" id="3_27bu7"]
+[ext_resource type="AudioStream" uid="uid://c5m5xtbaiigbh" path="res://Audio/Healing/heal_03.ogg" id="4_37dij"]
+[ext_resource type="AudioStream" uid="uid://bmsa5dtxdr0tq" path="res://Audio/Healing/heal_04.ogg" id="5_1ef5p"]
+[ext_resource type="AudioStream" uid="uid://cbwosixh8g3jq" path="res://Audio/Damage/damage_01.ogg" id="6_q2enh"]
+[ext_resource type="AudioStream" uid="uid://cmsm6svi0478l" path="res://Audio/Damage/damage_02.ogg" id="7_wufy3"]
+[ext_resource type="AudioStream" uid="uid://daqcx2bxit7yb" path="res://Audio/Damage/damage_03.ogg" id="8_nwecq"]
+[ext_resource type="AudioStream" uid="uid://dj513q4lqf1kt" path="res://Audio/Damage/damage_04.ogg" id="9_0j5yh"]
+[ext_resource type="AudioStream" uid="uid://dlcvdatfk0xdc" path="res://Audio/KO/KO_1.ogg" id="10_37dij"]
+[ext_resource type="Script" uid="uid://dkyb73lqqwx2n" path="res://Audio/AudioStreamPlayerPoolItem.cs" id="10_nenho"]
+[ext_resource type="AudioStream" uid="uid://ct611p56q1vxr" path="res://Audio/KO/KO_2.ogg" id="11_1ef5p"]
+[ext_resource type="AudioStream" uid="uid://deh27ifh5x782" path="res://Audio/KO/KO_3.ogg" id="12_q2enh"]
+
+[node name="AudioStreamPool" type="Node" node_paths=PackedStringArray("StreamPool")]
+script = ExtResource("1_702vh")
+HealSounds = Array[AudioStreamOggVorbis]([ExtResource("2_nmqho"), ExtResource("3_27bu7"), ExtResource("4_37dij"), ExtResource("5_1ef5p")])
+DamageSounds = Array[AudioStreamOggVorbis]([ExtResource("6_q2enh"), ExtResource("7_wufy3"), ExtResource("8_nwecq"), ExtResource("9_0j5yh")])
+KOSounds = Array[AudioStreamOggVorbis]([ExtResource("10_37dij"), ExtResource("11_1ef5p"), ExtResource("12_q2enh")])
+StreamPool = [NodePath("AudioStreamPlayer"), NodePath("AudioStreamPlayer2"), NodePath("AudioStreamPlayer3"), NodePath("AudioStreamPlayer4"), NodePath("AudioStreamPlayer5"), NodePath("AudioStreamPlayer6"), NodePath("AudioStreamPlayer7"), NodePath("AudioStreamPlayer8"), NodePath("AudioStreamPlayer9"), NodePath("AudioStreamPlayer10")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer4" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer5" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer6" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer7" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer8" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer9" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")
+
+[node name="AudioStreamPlayer10" type="AudioStreamPlayer" parent="."]
+script = ExtResource("10_nenho")

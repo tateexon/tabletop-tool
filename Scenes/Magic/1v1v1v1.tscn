@@ -1,16 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://dogevnscyvp40"]
 
-[ext_resource type="PackedScene" uid="uid://dpyrfr1h18i75" path="res://Audio/RandomHealDamageStreamPlayer.tscn" id="1_mfcfx"]
 [ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/MagicSection.tscn" id="2_dtlr8"]
 [ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="3_m57ip"]
 [ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="4_h0pvx"]
+[ext_resource type="PackedScene" uid="uid://di02e3wykqqw1" path="res://Audio/AudioStreamPool.tscn" id="4_moff2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m57ip"]
 bg_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D"]
-
-[node name="AudioStreamPlayer" parent="." instance=ExtResource("1_mfcfx")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -60,3 +58,5 @@ grow_vertical = 2
 theme = ExtResource("4_h0pvx")
 text = " blarg"
 metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPool" parent="." instance=ExtResource("4_moff2")]

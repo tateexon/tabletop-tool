@@ -87,11 +87,29 @@ public partial class MagicSection : Control
     {
         int health = Data.GetMagicHealth(this.WhichSection);
         health += healed ? 1 : -1;
+        if (health < 0)
+        {
+            health = 0;
+            this.CallDeferred(nameof(this.StopHover), healed ? AddButton : SubtractButton);
+            return;
+        }
+
         Data.SetMagicHealth(this.WhichSection, health);
         SetHealthLabel(Data.GetMagicHealth(this.WhichSection).ToString());
         if (Data.AudioEnabled)
         {
-            RandomAudioSound.PlayRandomSound?.Invoke(healed);
+            AudioStreamPool.SoundType typeToPlay = AudioStreamPool.SoundType.Heal;
+            if (!healed)
+            {
+                typeToPlay = AudioStreamPool.SoundType.Damage;
+            }
+
+            if (health <= 0)
+            {
+                typeToPlay = AudioStreamPool.SoundType.KO;
+            }
+
+            AudioStreamPool.PlaySound?.Invoke(typeToPlay);
         }
         this.CallDeferred(nameof(this.StopHover), healed ? AddButton : SubtractButton);
     }
