@@ -6,6 +6,7 @@
 [resource]
 default_font_size = 64
 Button/font_sizes/font_size = 64
+Button/styles/hover_pressed = ExtResource("1_iqkrg")
 Button/styles/normal = ExtResource("1_iqkrg")
 Label/font_sizes/font_size = 64
 RichTextLabel/font_sizes/bold_font_size = 64

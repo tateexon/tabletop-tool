@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dogevnscyvp40"]
+[gd_scene load_steps=7 format=3 uid="uid://dogevnscyvp40"]
 
 [ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/MagicSection.tscn" id="2_dtlr8"]
 [ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="3_m57ip"]
+[ext_resource type="Script" uid="uid://cw75hy1h7osx7" path="res://Scenes/Magic/Clock.cs" id="4_bgc04"]
 [ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="4_h0pvx"]
 [ext_resource type="PackedScene" uid="uid://di02e3wykqqw1" path="res://Audio/AudioStreamPool.tscn" id="4_moff2"]
 
@@ -33,6 +34,30 @@ offset_bottom = 96.0
 theme_override_font_sizes/font_size = 64
 text = "Back"
 script = ExtResource("3_m57ip")
+
+[node name="Button" type="Button" parent="CanvasLayer" node_paths=PackedStringArray("timer")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("4_h0pvx")
+theme_override_font_sizes/font_size = 150
+text = "10:00"
+script = ExtResource("4_bgc04")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="CanvasLayer/Button"]
+wait_time = 600.0
+one_shot = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 visible = false

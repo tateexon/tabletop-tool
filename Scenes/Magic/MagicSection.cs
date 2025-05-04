@@ -24,6 +24,9 @@ public partial class MagicSection : Control
     [Export]
     public RichTextLabel RichHealthLabel;
 
+    [Export]
+    public Button CenterButton;
+
     public override void _Ready()
     {
         var screenSize = GetViewport().GetVisibleRect().Size;
@@ -67,15 +70,18 @@ public partial class MagicSection : Control
                 break;
         }
 
-        AddButton.Pressed += AddPressed;
-        SubtractButton.Pressed += SubtractPressed;
-        SetHealthLabel(Data.GetMagicHealth(this.WhichSection).ToString());
+        this.RichHealthLabel.MouseFilter = MouseFilterEnum.Ignore;
+        this.AddButton.Pressed += this.AddPressed;
+        this.SubtractButton.Pressed += this.SubtractPressed;
+        this.CenterButton.Pressed += this.StartUserTimer;
+        SetHealthLabel(this.Data.GetMagicHealth(this.WhichSection).ToString());
     }
 
     public override void _ExitTree()
     {
-        AddButton.Pressed -= AddPressed;
-        SubtractButton.Pressed -= SubtractPressed;
+        this.AddButton.Pressed -= this.AddPressed;
+        this.SubtractButton.Pressed -= this.SubtractPressed;
+        this.CenterButton.Pressed -= this.StartUserTimer;
     }
 
     private void SetHealthLabel(string text)
@@ -111,7 +117,7 @@ public partial class MagicSection : Control
 
             AudioStreamPool.PlaySound?.Invoke(typeToPlay);
         }
-        this.CallDeferred(nameof(this.StopHover), healed ? AddButton : SubtractButton);
+        this.CallDeferred(nameof(this.StopHover), healed ? this.AddButton : this.SubtractButton);
     }
 
     private void SubtractPressed()
@@ -134,4 +140,8 @@ public partial class MagicSection : Control
         button.MouseFilter = MouseFilterEnum.Stop;
     }
 
+    private void StartUserTimer()
+    {
+        Clock.StartTimerForSection?.Invoke(this.WhichSection);
+    }
 }

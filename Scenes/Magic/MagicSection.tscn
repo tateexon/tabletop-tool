@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://cgsdl6caefuhw" path="res://Scenes/Magic/1v1Theme.tres" id="2_e6voj"]
 [ext_resource type="Resource" uid="uid://n3gsy7652y5f" path="res://Resources/SaveData.tres" id="2_eurjj"]
 
-[node name="Control" type="Control" node_paths=PackedStringArray("BackgroundRectangle", "AddButton", "SubtractButton", "RichHealthLabel")]
+[node name="MagicControl" type="Control" node_paths=PackedStringArray("BackgroundRectangle", "AddButton", "SubtractButton", "RichHealthLabel", "CenterButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,8 @@ BackgroundColor = Color(1, 1, 1, 0)
 BackgroundRectangle = NodePath("MarginContainer/ColorRect")
 AddButton = NodePath("MarginContainer/HBoxContainer/AddButton")
 SubtractButton = NodePath("MarginContainer/HBoxContainer/SubtractButton")
-RichHealthLabel = NodePath("MarginContainer/HBoxContainer/RichTextLabel")
+RichHealthLabel = NodePath("MarginContainer/HBoxContainer/CenterButton/RichTextLabel")
+CenterButton = NodePath("MarginContainer/HBoxContainer/CenterButton")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -44,8 +45,17 @@ theme = ExtResource("2_e6voj")
 theme_override_font_sizes/font_size = 100
 text = "-"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer"]
+[node name="CenterButton" type="Button" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/CenterButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/bold_italics_font_size = 300
