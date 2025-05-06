@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn6p80pxf18ka"]
+[gd_scene load_steps=9 format=3 uid="uid://cn6p80pxf18ka"]
 
 [ext_resource type="Script" uid="uid://cokljqx6h3jhw" path="res://Scenes/MagicHBoxContainer.cs" id="1_1b72j"]
 [ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="1_dytv0"]
@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://n3gsy7652y5f" path="res://Resources/SaveData.tres" id="4_satmt"]
 [ext_resource type="Script" uid="uid://dylpg5glqcdlq" path="res://Scenes/Home/ResetDataButton.cs" id="5_3jurr"]
 [ext_resource type="Script" uid="uid://dkwt60ertf6g2" path="res://Scenes/Home/HomeRollDiceButton.cs" id="7_n7ne5"]
+[ext_resource type="Script" uid="uid://ddvufeab2wo7l" path="res://Scenes/RollDice/TextEditOnlyNumbers.cs" id="7_yyhl3"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -124,6 +125,24 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_dytv0")
 text = "1v1v1v1"
+
+[node name="Magic-HBoxContainer3" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/Magic-HBoxContainer3"]
+layout_mode = 2
+theme = ExtResource("1_dytv0")
+text = "Timer            :"
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer/VBoxContainer/Magic-HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_dytv0")
+text = "600"
+script = ExtResource("7_yyhl3")
+Data = ExtResource("4_satmt")
+Box = 2
 
 [node name="RollDiceButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

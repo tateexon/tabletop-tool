@@ -14,6 +14,7 @@ public partial class TextEditOnlyNumbers : TextEdit
 	{
 		NumberOfDice,
 		SizeOfDice,
+		CountdownTimer,
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -27,6 +28,13 @@ public partial class TextEditOnlyNumbers : TextEdit
 				break;
 			case WhichBox.SizeOfDice:
 				Text = $"{Data.DiceSize}";
+				break;
+			case WhichBox.CountdownTimer:
+				if (Data.TimerSeconds <= 0)
+				{
+					Data.TimerSeconds = 600;
+				}
+				Text = $"{Data.TimerSeconds}";
 				break;
 			default:
 				GD.PrintErr("WTF TextEditOnlyNumbers");
@@ -68,6 +76,9 @@ public partial class TextEditOnlyNumbers : TextEdit
 				break;
 			case WhichBox.SizeOfDice:
 				Data.DiceSize = int.Parse(Text);
+				break;
+			case WhichBox.CountdownTimer:
+				Data.TimerSeconds = int.Parse(Text);
 				break;
 			default:
 				GD.PrintErr("WTF TextEditOnlyNumbers");

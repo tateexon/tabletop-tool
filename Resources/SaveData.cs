@@ -9,7 +9,7 @@ namespace Save
     public partial class SaveData : Resource
     {
         [Export]
-        public bool AudioEnabled { get; set; }
+        public bool AudioEnabled = true;
 
         [Export]
         private Dictionary<GameMode, Dictionary<Section, int>> MagicHealth { get; set; }
@@ -24,10 +24,17 @@ namespace Save
         [Export]
         public GameMode GameMode { get; set; }
 
+        [Export]
+        public int TimerSeconds { get; set; }
+
         public void Reset()
         {
             ResetMagicHealth();
             ResetDice();
+            if (this.TimerSeconds <= 0)
+            {
+                this.TimerSeconds = 600;
+            }
         }
 
         public void ResetMagicHealth()

@@ -1,18 +1,25 @@
 using Godot;
+using Save;
 using System;
 
 public partial class Clock : Button
 {
+	[Export]
+	public SaveData Data;
+
 	[Export]
 	private Timer timer;
 
 	[Export]
 	private Section activeSection = Section.None;
 
+	[Export]
+	private AudioStreamPlayer audioStreamPlayer;
+
 	public static Action<Section> StartTimerForSection;
 	public static Action PauseTimer;
 
-	private double secondsToWait = 600d;
+	private double jeopardyLengthToBell = 33.6d;
 
 
 	// Called when the node enters the scene tree for the first time.
@@ -24,6 +31,8 @@ public partial class Clock : Button
 		StartTimerForSection += this.OnSectionStartPressed;
 		PauseTimer += this.OnPauseTimerPressed;
 		this.Pressed += this.OnPressed;
+
+		this.UpdateTimerDisplay();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,7 +51,8 @@ public partial class Clock : Button
 			return;
 		}
 
-		UpdateTimerDisplay();
+		this.UpdateTimerDisplay();
+		this.CheckIfStartPlayingJeopardy();
 	}
 
 	private void OnPressed()
@@ -57,7 +67,7 @@ public partial class Clock : Button
 
 	private void OnSectionStartPressed(Section sectionSendingSignal)
 	{
-		if (!this.timer.Paused)
+		if (!this.timer.Paused && this.timer.TimeLeft > 0d)
 		{
 			return;
 		}
@@ -69,19 +79,33 @@ public partial class Clock : Button
 
 		this.activeSection = sectionSendingSignal;
 		this.timer.Paused = false;
-		this.timer.Start(this.secondsToWait);
+		this.timer.Start(this.Data.TimerSeconds);
 	}
 
 	private void OnPauseTimerPressed()
 	{
+		if (this.activeSection.Equals(Section.None))
+		{
+			return;
+		}
+
 		if (this.timer.Paused)
 		{
+			if (this.Data.AudioEnabled && this.timer.TimeLeft < this.jeopardyLengthToBell)
+			{
+				this.audioStreamPlayer.StreamPaused = false;
+			}
+
 			this.timer.Paused = false;
 			this.timer.Start(this.timer.TimeLeft);
 		}
 		else
 		{
 			this.timer.Paused = true;
+			if (this.Data.AudioEnabled)
+			{
+				this.audioStreamPlayer.StreamPaused = true;
+			}
 		}
 	}
 
@@ -91,5 +115,23 @@ public partial class Clock : Button
 		string formattedTime = string.Format("{0:D2}:{1:D2}", time.Minutes, time.Seconds);
 
 		this.Text = formattedTime;
+	}
+
+	private void CheckIfStartPlayingJeopardy()
+	{
+		if (!this.Data.AudioEnabled)
+		{
+			return;
+		}
+
+		if (this.audioStreamPlayer.Playing)
+		{
+			return;
+		}
+
+		if (this.timer.TimeLeft <= this.jeopardyLengthToBell)
+		{
+			this.audioStreamPlayer.Play();
+		}
 	}
 }
