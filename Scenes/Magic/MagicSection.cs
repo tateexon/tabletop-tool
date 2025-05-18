@@ -1,5 +1,7 @@
 using Godot;
 using Save;
+using System;
+using System.Data;
 
 public partial class MagicSection : Control
 {
@@ -16,6 +18,16 @@ public partial class MagicSection : Control
     public ColorRect BackgroundRectangle;
 
     [Export]
+    private Color selectedColor;
+    [Export]
+    private Color unselectedColor;
+
+    [Export]
+    private PanelContainer isSelectedPanel;
+    public static Action<Section> SetSelected;
+    private StyleBoxFlat styleBox;
+
+    [Export]
     public Button AddButton;
 
     [Export]
@@ -26,6 +38,13 @@ public partial class MagicSection : Control
 
     [Export]
     public Button CenterButton;
+
+    [Export]
+    private Timer doubleClickTimer;
+    [Export]
+    private float doubleClickDelay = 0.3f;
+
+    private int clickCount = 0;
 
     public override void _Ready()
     {
@@ -73,15 +92,25 @@ public partial class MagicSection : Control
         this.RichHealthLabel.MouseFilter = MouseFilterEnum.Ignore;
         this.AddButton.Pressed += this.AddPressed;
         this.SubtractButton.Pressed += this.SubtractPressed;
-        this.CenterButton.Pressed += this.StartUserTimer;
+        this.CenterButton.Pressed += this.OnUserButtonPressed;
         SetHealthLabel(this.Data.GetMagicHealth(this.WhichSection).ToString());
+
+        this.doubleClickTimer.WaitTime = this.doubleClickDelay;
+        this.doubleClickTimer.OneShot = true;
+        this.doubleClickTimer.Timeout += this.OnDoubleClickTimerTimeout;
+
+        this.styleBox = this.isSelectedPanel.GetThemeStylebox("panel").Duplicate() as StyleBoxFlat;
+        this.SetSelectedBorder(Section.None);
+        SetSelected += this.SetSelectedBorder;
     }
 
     public override void _ExitTree()
     {
         this.AddButton.Pressed -= this.AddPressed;
         this.SubtractButton.Pressed -= this.SubtractPressed;
-        this.CenterButton.Pressed -= this.StartUserTimer;
+        this.CenterButton.Pressed -= this.OnUserButtonPressed;
+        this.doubleClickTimer.Timeout -= this.OnDoubleClickTimerTimeout;
+        SetSelected -= this.SetSelectedBorder;
     }
 
     private void SetHealthLabel(string text)
@@ -140,8 +169,67 @@ public partial class MagicSection : Control
         button.MouseFilter = MouseFilterEnum.Stop;
     }
 
-    private void StartUserTimer()
+    private void OnUserButtonPressed()
     {
-        Clock.StartTimerForSection?.Invoke(this.WhichSection);
+        this.clickCount++;
+
+        if (this.clickCount == 1)
+        {
+            this.doubleClickTimer.Start();
+        }
+        else if (this.clickCount == 2)
+        {
+            if (!this.doubleClickTimer.IsStopped())
+            {
+                this.doubleClickTimer.Stop();
+                this.HandleDoubleTap();
+                this.clickCount = 0;
+            }
+            else
+            {
+                // timer was stopped so we entered a race conditions like place where we already did the single click send,
+                // start this back up as a single click.
+                // i mean realistically I don't think we should end up here but just in case
+                this.clickCount = 1;
+                this.doubleClickTimer.Start();
+            }
+        }
+    }
+
+    private void HandleDoubleTap()
+    {
+        SetSelected?.Invoke(this.WhichSection);
+        Clock.StartTimerForSection?.Invoke(this.WhichSection, 2);
+    }
+
+    private void HandleSingleTap()
+    {
+        Clock.StartTimerForSection?.Invoke(this.WhichSection, 1);
+    }
+
+    private void OnDoubleClickTimerTimeout()
+    {
+        if (this.clickCount == 1)
+        {
+            this.HandleSingleTap();
+        }
+
+        this.clickCount = 0;
+    }
+
+    private void SetSelectedBorder(Section whichSection)
+    {
+        if (this.WhichSection.Equals(whichSection))
+        {
+            // set this one to have a gold border
+            this.styleBox.BgColor = this.selectedColor;
+        }
+        else
+        {
+            // clear out border color
+            this.styleBox.BgColor = this.unselectedColor;
+        }
+
+        this.isSelectedPanel.AddThemeStyleboxOverride("panel", styleBox);
     }
 }

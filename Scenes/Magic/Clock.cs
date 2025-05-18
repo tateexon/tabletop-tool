@@ -16,7 +16,7 @@ public partial class Clock : Button
 	[Export]
 	private AudioStreamPlayer audioStreamPlayer;
 
-	public static Action<Section> StartTimerForSection;
+	public static Action<Section, int> StartTimerForSection;
 	public static Action PauseTimer;
 
 	private double jeopardyLengthToBell = 33.6d;
@@ -28,7 +28,7 @@ public partial class Clock : Button
 		this.activeSection = Section.None;
 		this.timer.Paused = true;
 		timer.Timeout += this.OnTimeout;
-		StartTimerForSection += this.OnSectionStartPressed;
+		StartTimerForSection += this.OnSectionPressed;
 		PauseTimer += this.OnPauseTimerPressed;
 		this.Pressed += this.OnPressed;
 
@@ -39,7 +39,7 @@ public partial class Clock : Button
 	public override void _ExitTree()
 	{
 		timer.Timeout -= this.OnTimeout;
-		StartTimerForSection -= this.OnSectionStartPressed;
+		StartTimerForSection -= this.OnSectionPressed;
 		PauseTimer -= this.OnPauseTimerPressed;
 		this.Pressed -= this.OnPressed;
 	}
@@ -65,15 +65,15 @@ public partial class Clock : Button
 		// do something on timeout
 	}
 
-	private void OnSectionStartPressed(Section sectionSendingSignal)
+	private void OnSectionPressed(Section sectionSendingSignal, int clickCount)
 	{
-		if (!this.timer.Paused && this.timer.TimeLeft > 0d)
+		if (clickCount < 2)
 		{
-			return;
-		}
+			if (this.activeSection.Equals(sectionSendingSignal))
+			{
+				this.OnPauseTimerPressed();
+			}
 
-		if (this.activeSection.Equals(sectionSendingSignal))
-		{
 			return;
 		}
 
