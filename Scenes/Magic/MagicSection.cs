@@ -9,6 +9,9 @@ public partial class MagicSection : Control
     public SaveData Data;
 
     [Export]
+    private int numSections;
+
+    [Export]
     public Section WhichSection;
 
     [Export]
@@ -45,6 +48,8 @@ public partial class MagicSection : Control
     private float doubleClickDelay = 0.3f;
 
     private int clickCount = 0;
+    private const float left = 90f;
+    private const float right = -90f;
 
     public override void _Ready()
     {
@@ -52,36 +57,41 @@ public partial class MagicSection : Control
         screenSize.Y -= 25;
         var thisSizeY = Size.Y - 25;
         BackgroundRectangle.Color = BackgroundColor;
+        Size = this.getSize(screenSize.X, thisSizeY);
+        float xLength = screenSize.X / 2;
+        float yLength = screenSize.Y / this.numSections;
 
         switch (WhichSection)
         {
             case Section.TopLeft:
-                Size = new Vector2(thisSizeY / 2.0f, screenSize.X / 2.0f);
-                RotationDegrees = 90;
-                Position = new Vector2(screenSize.X / 2.0f, 0);
+                RotationDegrees = left;
+                Position = new Vector2(xLength, 0);
                 break;
             case Section.TopRight:
-                Size = new Vector2(thisSizeY / 2.0f, screenSize.X / 2.0f);
-                RotationDegrees = -90;
-                Position = new Vector2(screenSize.X / 2.0f, screenSize.Y / 2.0f);
+                RotationDegrees = right;
+                Position = new Vector2(xLength, yLength * (this.numSections == 2 ? 1 : 1));
                 break;
             case Section.BotLeft:
-                Size = new Vector2(thisSizeY / 2.0f, screenSize.X / 2.0f);
-                RotationDegrees = 90f;
-                Position = new Vector2(screenSize.X / 2.0f, screenSize.Y / 2.0f);
+                RotationDegrees = left;
+                Position = new Vector2(xLength, yLength * (this.numSections == 2 ? 1 : 2));
                 break;
             case Section.BotRight:
-                Size = new Vector2(thisSizeY / 2.0f, screenSize.X / 2.0f);
-                RotationDegrees = -90f;
-                Position = new Vector2(screenSize.X / 2.0f, screenSize.Y);
+                RotationDegrees = right;
+                Position = new Vector2(xLength, screenSize.Y);
+                break;
+            case Section.MidLeft:
+                RotationDegrees = left;
+                Position = new Vector2(xLength, yLength);
+                break;
+            case Section.MidRight:
+                RotationDegrees = right;
+                Position = new Vector2(xLength, yLength * 2);
                 break;
             case Section.Top:
-                Size = new Vector2(Size.X, screenSize.Y / 2.0f);
                 RotationDegrees = 180f;
                 Position = new Vector2(Size.X, screenSize.Y / 2.0f);
                 break;
             case Section.Bot:
-                Size = new Vector2(Size.X, screenSize.Y / 2.0f);
                 Position = new Vector2(0, screenSize.Y / 2.0f);
                 break;
             default:
@@ -89,6 +99,10 @@ public partial class MagicSection : Control
                 break;
         }
 
+        if (this.numSections == 3)
+        {
+            this.RichHealthLabel.AddThemeFontSizeOverride("normal_font_size", 250);
+        }
         this.RichHealthLabel.MouseFilter = MouseFilterEnum.Ignore;
         this.AddButton.Pressed += this.AddPressed;
         this.SubtractButton.Pressed += this.SubtractPressed;
@@ -231,5 +245,21 @@ public partial class MagicSection : Control
         }
 
         this.isSelectedPanel.AddThemeStyleboxOverride("panel", styleBox);
+    }
+
+    private Vector2 getSize(float sizeX, float sizeY)
+    {
+        if (this.numSections <= 1)
+        {
+            return new Vector2(sizeX, sizeY / 2.0f);
+        }
+        else if (this.numSections == 2)
+        {
+            return new Vector2(sizeY / 2.0f, sizeX / 2.0f);
+        }
+        else
+        {
+            return new Vector2(sizeY / 3.0f, sizeX / 2.0f);
+        }
     }
 }

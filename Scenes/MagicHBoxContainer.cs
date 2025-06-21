@@ -8,35 +8,46 @@ public partial class MagicHBoxContainer : HBoxContainer
     public SaveData Data;
 
     [Export]
-    public Button OneVOneButton;
+    public Button P2;
 
     [Export]
-    public Button OneVOneVOneVOneButton;
+    public Button P4;
+
+    [Export]
+    public Button P6;
 
     [Export]
     public GameMode GameMode;
 
     public override void _Ready()
     {
-        OneVOneButton.Pressed += OneVOneButtonPressed;
-        OneVOneVOneVOneButton.Pressed += OneVOneVOneVOneButtonPressed;
+        this.P2.Pressed += this.P2Pressed;
+        this.P4.Pressed += this.P4Pressed;
+        this.P6.Pressed += this.P6Pressed;
     }
 
     public override void _ExitTree()
     {
-        OneVOneButton.Pressed -= OneVOneButtonPressed;
-        OneVOneVOneVOneButton.Pressed -= OneVOneVOneVOneButtonPressed;
+        this.P2.Pressed -= this.P2Pressed;
+        this.P4.Pressed -= this.P4Pressed;
+        this.P6.Pressed -= this.P6Pressed;
     }
 
-    private void OneVOneButtonPressed()
+    private void P2Pressed()
     {
         this.Data.GameMode = this.GameMode;
-        GetTree().ChangeSceneToFile("res://Scenes/Magic/1v1.tscn");
+        GetTree().ChangeSceneToFile("res://Scenes/Magic/2Player.tscn");
     }
 
-    private void OneVOneVOneVOneButtonPressed()
+    private void P4Pressed()
     {
         this.Data.GameMode = this.GameMode;
-        GetTree().ChangeSceneToFile("res://Scenes/Magic/1v1v1v1.tscn");
+        GetTree().ChangeSceneToFile("res://Scenes/Magic/4Player.tscn");
+    }
+
+    private void P6Pressed()
+    {
+        this.Data.GameMode = this.GameMode;
+        GetTree().ChangeSceneToFile("res://Scenes/Magic/6Player.tscn");
     }
 }

@@ -1,0 +1,109 @@
+[gd_scene load_steps=9 format=3 uid="uid://c537ieyt1myx"]
+
+[ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/MagicSection.tscn" id="1_s2l62"]
+[ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="2_isalh"]
+[ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="3_fdsgq"]
+[ext_resource type="Script" uid="uid://cw75hy1h7osx7" path="res://Scenes/Magic/Clock.cs" id="4_gs282"]
+[ext_resource type="Resource" uid="uid://n3gsy7652y5f" path="res://Resources/SaveData.tres" id="5_a8ono"]
+[ext_resource type="AudioStream" uid="uid://bkbuyaykwgqga" path="res://Audio/JeopardyClone.ogg" id="6_j2gf1"]
+[ext_resource type="PackedScene" uid="uid://di02e3wykqqw1" path="res://Audio/AudioStreamPool.tscn" id="7_culg8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m57ip"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" parent="CanvasLayer" instance=ExtResource("1_s2l62")]
+numSections = 3
+BackgroundColor = Color(0.239216, 0.329412, 1, 1)
+
+[node name="Control2" parent="CanvasLayer" instance=ExtResource("1_s2l62")]
+numSections = 3
+WhichSection = 1
+BackgroundColor = Color(0.797937, 0, 0.170135, 1)
+
+[node name="Control3" parent="CanvasLayer" instance=ExtResource("1_s2l62")]
+numSections = 3
+WhichSection = 2
+BackgroundColor = Color(0.420661, 0.0184413, 0.533295, 1)
+
+[node name="Control4" parent="CanvasLayer" instance=ExtResource("1_s2l62")]
+numSections = 3
+WhichSection = 3
+BackgroundColor = Color(5.29438e-07, 0.375001, 0.0858196, 1)
+
+[node name="Control5" parent="CanvasLayer" instance=ExtResource("1_s2l62")]
+numSections = 3
+WhichSection = 6
+BackgroundColor = Color(0.0235294, 0.501961, 0.619608, 1)
+
+[node name="Control6" parent="CanvasLayer" instance=ExtResource("1_s2l62")]
+numSections = 3
+WhichSection = 7
+BackgroundColor = Color(1, 0.305882, 0, 1)
+
+[node name="ExitButton" type="Button" parent="CanvasLayer"]
+offset_right = 122.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 64
+text = "Back"
+script = ExtResource("2_isalh")
+
+[node name="Button" type="Button" parent="CanvasLayer" node_paths=PackedStringArray("timer", "audioStreamPlayer")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("3_fdsgq")
+theme_override_constants/align_to_largest_stylebox = 0
+theme_override_font_sizes/font_size = 150
+text = "10:00"
+script = ExtResource("4_gs282")
+Data = ExtResource("5_a8ono")
+timer = NodePath("Timer")
+audioStreamPlayer = NodePath("AudioStreamPlayer")
+
+[node name="Timer" type="Timer" parent="CanvasLayer/Button"]
+wait_time = 600.0
+one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/Button"]
+stream = ExtResource("6_j2gf1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+offset_right = 1080.0
+offset_bottom = 1920.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 10
+theme_override_styles/panel = SubResource("StyleBoxFlat_m57ip")
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_fdsgq")
+text = " blarg"
+metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPool" parent="." instance=ExtResource("7_culg8")]

@@ -6,5 +6,7 @@ public enum Section
     BotRight,
     Top,
     Bot,
+    MidLeft,
+    MidRight,
     None,
 }
