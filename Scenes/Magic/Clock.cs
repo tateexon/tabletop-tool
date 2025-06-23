@@ -77,6 +77,7 @@ public partial class Clock : Button
 			return;
 		}
 
+		this.audioStreamPlayer.StreamPaused = true;
 		this.activeSection = sectionSendingSignal;
 		this.timer.Paused = false;
 		this.timer.Start(this.Data.TimerSeconds);
