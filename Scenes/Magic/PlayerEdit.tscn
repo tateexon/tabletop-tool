@@ -1,0 +1,98 @@
+[gd_scene load_steps=5 format=3 uid="uid://3kra6k1b8o5m"]
+
+[ext_resource type="Script" uid="uid://dvxg5rsrwpjvu" path="res://Scenes/Magic/PlayerEdit.cs" id="1_nd3i4"]
+[ext_resource type="Resource" uid="uid://n3gsy7652y5f" path="res://Resources/SaveData.tres" id="2_x42ed"]
+[ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="3_hdfj5"]
+[ext_resource type="Script" uid="uid://ddvufeab2wo7l" path="res://Scenes/RollDice/TextEditOnlyNumbers.cs" id="4_g3ods"]
+
+[node name="Control" type="Control" node_paths=PackedStringArray("backgroundColor", "r", "g", "b", "backButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_nd3i4")
+data = ExtResource("2_x42ed")
+backgroundColor = NodePath("MarginContainer/GridContainer/ColorRect")
+r = NodePath("MarginContainer/GridContainer/RTextEdit")
+g = NodePath("MarginContainer/GridContainer/GTextEdit")
+b = NodePath("MarginContainer/GridContainer/BTextEdit")
+backButton = NodePath("MarginContainer/GridContainer/Button")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="RLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_hdfj5")
+text = "R:"
+
+[node name="RTextEdit" type="TextEdit" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_hdfj5")
+text = "1"
+script = ExtResource("4_g3ods")
+Data = ExtResource("2_x42ed")
+Box = 3
+
+[node name="GLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_hdfj5")
+text = "G:"
+
+[node name="GTextEdit" type="TextEdit" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_hdfj5")
+text = "1"
+script = ExtResource("4_g3ods")
+Data = ExtResource("2_x42ed")
+Box = 4
+
+[node name="BLabel" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_hdfj5")
+text = "B:"
+
+[node name="BTextEdit" type="TextEdit" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_hdfj5")
+text = "1"
+script = ExtResource("4_g3ods")
+Data = ExtResource("2_x42ed")
+Box = 5
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MarginContainer/GridContainer"]
+layout_mode = 2
+theme = ExtResource("3_hdfj5")
+text = "Back"

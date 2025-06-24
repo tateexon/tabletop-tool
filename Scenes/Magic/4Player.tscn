@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dogevnscyvp40"]
+[gd_scene load_steps=10 format=3 uid="uid://dogevnscyvp40"]
 
 [ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/MagicSection.tscn" id="1_itsrh"]
+[ext_resource type="Script" uid="uid://cg4hbpk4cuo4g" path="res://Scenes/Magic/ScoreParent.cs" id="1_ol3ui"]
 [ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="2_ol3ui"]
 [ext_resource type="Theme" uid="uid://csg8jro7mtcmw" path="res://Themes/HomeTheme.tres" id="3_8etrq"]
 [ext_resource type="Script" uid="uid://cw75hy1h7osx7" path="res://Scenes/Magic/Clock.cs" id="4_r8m6k"]
@@ -12,6 +13,8 @@
 bg_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_ol3ui")
+data = ExtResource("5_y3kfa")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

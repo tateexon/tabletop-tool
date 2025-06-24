@@ -1,7 +1,6 @@
 using Godot;
 using Save;
 using System;
-using System.Data;
 
 public partial class MagicSection : Control
 {
@@ -44,6 +43,7 @@ public partial class MagicSection : Control
 
     [Export]
     private Timer doubleClickTimer;
+
     [Export]
     private float doubleClickDelay = 0.3f;
 
@@ -56,12 +56,13 @@ public partial class MagicSection : Control
         var screenSize = GetViewport().GetVisibleRect().Size;
         screenSize.Y -= 25;
         var thisSizeY = Size.Y - 25;
+        this.BackgroundColor = this.Data.GetMagicColor(this.WhichSection);
         BackgroundRectangle.Color = BackgroundColor;
         Size = this.getSize(screenSize.X, thisSizeY);
         float xLength = screenSize.X / 2;
         float yLength = screenSize.Y / this.numSections;
 
-        switch (WhichSection)
+        switch (this.WhichSection)
         {
             case Section.TopLeft:
                 RotationDegrees = left;
@@ -111,7 +112,7 @@ public partial class MagicSection : Control
 
         this.doubleClickTimer.WaitTime = this.doubleClickDelay;
         this.doubleClickTimer.OneShot = true;
-        this.doubleClickTimer.Timeout += this.OnDoubleClickTimerTimeout;
+        this.doubleClickTimer.Timeout += this.HandleMultiTap;
 
         this.styleBox = this.isSelectedPanel.GetThemeStylebox("panel").Duplicate() as StyleBoxFlat;
         this.SetSelectedBorder(Section.None);
@@ -123,7 +124,7 @@ public partial class MagicSection : Control
         this.AddButton.Pressed -= this.AddPressed;
         this.SubtractButton.Pressed -= this.SubtractPressed;
         this.CenterButton.Pressed -= this.OnUserButtonPressed;
-        this.doubleClickTimer.Timeout -= this.OnDoubleClickTimerTimeout;
+        this.doubleClickTimer.Timeout -= this.HandleMultiTap;
         SetSelected -= this.SetSelectedBorder;
     }
 
@@ -187,19 +188,9 @@ public partial class MagicSection : Control
     {
         this.clickCount++;
 
-        if (this.clickCount == 1)
+        if (this.clickCount < 3)
         {
-            this.doubleClickTimer.Start();
-        }
-        else if (this.clickCount == 2)
-        {
-            if (!this.doubleClickTimer.IsStopped())
-            {
-                this.doubleClickTimer.Stop();
-                this.HandleDoubleTap();
-                this.clickCount = 0;
-            }
-            else
+            if (this.doubleClickTimer.IsStopped())
             {
                 // timer was stopped so we entered a race conditions like place where we already did the single click send,
                 // start this back up as a single click.
@@ -207,32 +198,46 @@ public partial class MagicSection : Control
                 this.clickCount = 1;
                 this.doubleClickTimer.Start();
             }
+            else
+            {
+                this.doubleClickTimer.Stop();
+                this.doubleClickTimer.Start();
+            }
         }
-    }
-
-    private void HandleDoubleTap()
-    {
-        SetSelected?.Invoke(this.WhichSection);
-        Clock.StartTimerForSection?.Invoke(this.WhichSection, 2);
-    }
-
-    private void HandleSingleTap()
-    {
-        Clock.StartTimerForSection?.Invoke(this.WhichSection, 1);
-    }
-
-    private void OnDoubleClickTimerTimeout()
-    {
-        if (this.clickCount == 1)
+        else
         {
-            this.HandleSingleTap();
+            this.doubleClickTimer.Stop();
+            this.HandleMultiTap();
         }
+    }
 
+    private void HandleMultiTap()
+    {
+        switch (this.clickCount)
+        {
+            case 1:
+                // single tap
+                Clock.StartTimerForSection?.Invoke(this.WhichSection, 1);
+                break;
+            case 2:
+                // double tap
+                SetSelected?.Invoke(this.WhichSection);
+                Clock.StartTimerForSection?.Invoke(this.WhichSection, 2);
+                break;
+            case 3:
+                // triple tap
+                SetSelected?.Invoke(this.WhichSection);
+                GetTree().ChangeSceneToFile("res://Scenes/Magic/PlayerEdit.tscn");
+                break;
+            default:
+                break;
+        }
         this.clickCount = 0;
     }
 
     private void SetSelectedBorder(Section whichSection)
     {
+        this.Data.ActiveSection = whichSection;
         if (this.WhichSection.Equals(whichSection))
         {
             // set this one to have a gold border

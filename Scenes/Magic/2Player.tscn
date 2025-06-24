@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://dn0n8j5rahu1r"]
+[gd_scene load_steps=6 format=3 uid="uid://dn0n8j5rahu1r"]
 
+[ext_resource type="Script" uid="uid://cg4hbpk4cuo4g" path="res://Scenes/Magic/ScoreParent.cs" id="1_1y01f"]
+[ext_resource type="Resource" uid="uid://n3gsy7652y5f" path="res://Resources/SaveData.tres" id="2_7icii"]
 [ext_resource type="PackedScene" uid="uid://dpocbupnyc83k" path="res://Scenes/Magic/MagicSection.tscn" id="3_io64v"]
 [ext_resource type="Script" uid="uid://etxhevpn6e3t" path="res://Scenes/Magic/ExitButton.cs" id="3_xj7ha"]
 [ext_resource type="PackedScene" uid="uid://di02e3wykqqw1" path="res://Audio/AudioStreamPool.tscn" id="4_io64v"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_1y01f")
+data = ExtResource("2_7icii")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
