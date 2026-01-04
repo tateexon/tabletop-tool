@@ -4,10 +4,8 @@
 
 [resource]
 script = ExtResource("1_owed3")
-AudioEnabled = true
 MagicHealth = {}
+MagicColor = {}
 NumberOfDice = 2
 DiceSize = 6
-GameMode = 0
-TimerSeconds = 0
 metadata/_custom_type_script = "uid://luyw0d8heu5w"

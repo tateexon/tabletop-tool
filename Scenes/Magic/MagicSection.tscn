@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpocbupnyc83k"]
+[gd_scene load_steps=6 format=3 uid="uid://dpocbupnyc83k"]
 
 [ext_resource type="Script" uid="uid://cb2ibhjee8x57" path="res://Scenes/Magic/MagicSection.cs" id="1_m0tlk"]
 [ext_resource type="Theme" uid="uid://cgsdl6caefuhw" path="res://Scenes/Magic/1v1Theme.tres" id="2_e6voj"]
 [ext_resource type="Resource" uid="uid://n3gsy7652y5f" path="res://Resources/SaveData.tres" id="2_eurjj"]
+[ext_resource type="Script" uid="uid://skrxnxpkxs3i" path="res://Scenes/Magic/ScalableRichTextLabel.cs" id="4_dtbwe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eurjj"]
 bg_color = Color(0.855024, 0.683813, 0, 1)
@@ -23,11 +24,11 @@ BackgroundRectangle = NodePath("PanelContainer/MarginContainer/ColorRect")
 selectedColor = Color(0.959554, 0.680483, 0, 1)
 unselectedColor = Color(0, 0, 0, 1)
 isSelectedPanel = NodePath("PanelContainer")
-AddButton = NodePath("PanelContainer/MarginContainer/HBoxContainer/AddButton")
-SubtractButton = NodePath("PanelContainer/MarginContainer/HBoxContainer/SubtractButton")
-RichHealthLabel = NodePath("PanelContainer/MarginContainer/HBoxContainer/CenterButton/RichTextLabel")
-CenterButton = NodePath("PanelContainer/MarginContainer/HBoxContainer/CenterButton")
-doubleClickTimer = NodePath("PanelContainer/MarginContainer/HBoxContainer/CenterButton/DoubleTapTimer")
+AddButton = NodePath("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/AddButton")
+SubtractButton = NodePath("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/SubtractButton")
+RichHealthLabel = NodePath("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CenterButton/RichTextLabel")
+CenterButton = NodePath("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CenterButton")
+doubleClickTimer = NodePath("PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CenterButton/DoubleTapTimer")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -49,10 +50,14 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="SubtractButton" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SubtractButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -60,12 +65,12 @@ theme = ExtResource("2_e6voj")
 theme_override_font_sizes/font_size = 100
 text = "-"
 
-[node name="CenterButton" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer"]
+[node name="CenterButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/HBoxContainer/CenterButton"]
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CenterButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,21 +79,20 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/bold_italics_font_size = 300
-theme_override_font_sizes/italics_font_size = 300
-theme_override_font_sizes/mono_font_size = 300
-theme_override_font_sizes/normal_font_size = 300
-theme_override_font_sizes/bold_font_size = 300
 bbcode_enabled = true
 text = "[u]20[/u]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("4_dtbwe")
 
-[node name="DoubleTapTimer" type="Timer" parent="PanelContainer/MarginContainer/HBoxContainer/CenterButton"]
+[node name="DoubleTapTimer" type="Timer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CenterButton"]
 
-[node name="TripleTapTimer" type="Timer" parent="PanelContainer/MarginContainer/HBoxContainer/CenterButton"]
+[node name="TripleTapTimer" type="Timer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CenterButton"]
 
-[node name="AddButton" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer"]
+[node name="AddButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

@@ -24,30 +24,35 @@ public partial class TextEditOnlyNumbers : TextEdit
 	public override void _Ready()
 	{
 		this.TextChanged += OnTextChanged;
-		var c = this.Data.GetMagicColor(this.Data.ActiveSection);
+		var playerData = this.Data.GetMagicPlayer(this.Data.ActiveSection);
+		Color c = Colors.Black;
+		if (playerData != null)
+		{
+			c = playerData.Color;
+		}
 		switch (Box)
 		{
 			case WhichBox.NumberOfDice:
-				Text = $"{Data.NumberOfDice}";
+				this.Text = $"{this.Data.NumberOfDice}";
 				break;
 			case WhichBox.SizeOfDice:
-				Text = $"{Data.DiceSize}";
+				this.Text = $"{this.Data.DiceSize}";
 				break;
 			case WhichBox.CountdownTimer:
-				if (Data.TimerSeconds <= 0)
+				if (this.Data.TimerSeconds <= 0)
 				{
-					Data.TimerSeconds = 600;
+					this.Data.TimerSeconds = 600;
 				}
-				Text = $"{Data.TimerSeconds}";
+				this.Text = $"{this.Data.TimerSeconds}";
 				break;
 			case WhichBox.PlayerColorEditR:
-				Text = $"{c.R}";
+				this.Text = $"{c.R}";
 				break;
 			case WhichBox.PlayerColorEditG:
-				Text = $"{c.G}";
+				this.Text = $"{c.G}";
 				break;
 			case WhichBox.PlayerColorEditB:
-				Text = $"{c.B}";
+				this.Text = $"{c.B}";
 				break;
 			default:
 				GD.PrintErr("WTF TextEditOnlyNumbers");
@@ -74,14 +79,14 @@ public partial class TextEditOnlyNumbers : TextEdit
 	private void OnTextChanged()
 	{
 		int caretColumn = GetCaretColumn();
-		Text = this.TrimLeadingZeros(this.LimitToDigits(this.Text));
+		this.Text = this.TrimLeadingZeros(this.LimitToDigits(this.Text));
 		if (caretColumn > this.Text.Length)
 		{
 			caretColumn = this.Text.Length;
 		}
 
 		this.SetCaretColumn(caretColumn);
-		var c = this.Data.GetMagicColor(this.Data.ActiveSection);
+		var c = this.Data.GetMagicPlayer(this.Data.ActiveSection).Color;
 		var t = 0;
 		if (!string.IsNullOrEmpty(this.Text))
 		{
@@ -101,15 +106,15 @@ public partial class TextEditOnlyNumbers : TextEdit
 				break;
 			case WhichBox.PlayerColorEditR:
 				c.R = t / 255.0f;
-				this.Data.SetMagicColor(this.Data.ActiveSection, c);
+				this.Data.GetMagicPlayer(this.Data.ActiveSection).Color = c;
 				break;
 			case WhichBox.PlayerColorEditG:
 				c.G = t / 255.0f;;
-				this.Data.SetMagicColor(this.Data.ActiveSection, c);
+				this.Data.GetMagicPlayer(this.Data.ActiveSection).Color = c;
 				break;
 			case WhichBox.PlayerColorEditB:
 				c.B = t / 255.0f;;
-				this.Data.SetMagicColor(this.Data.ActiveSection, c);
+				this.Data.GetMagicPlayer(this.Data.ActiveSection).Color = c;
 				break;
 			default:
 				GD.PrintErr("WTF TextEditOnlyNumbers");

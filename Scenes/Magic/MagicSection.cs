@@ -36,7 +36,7 @@ public partial class MagicSection : Control
     public Button SubtractButton;
 
     [Export]
-    public RichTextLabel RichHealthLabel;
+    public ScalableRichTextLabel RichHealthLabel;
 
     [Export]
     public Button CenterButton;
@@ -53,47 +53,47 @@ public partial class MagicSection : Control
 
     public override void _Ready()
     {
-        var screenSize = GetViewport().GetVisibleRect().Size;
+        var screenSize = this.GetViewport().GetVisibleRect().Size;
         screenSize.Y -= 25;
-        var thisSizeY = Size.Y - 25;
-        this.BackgroundColor = this.Data.GetMagicColor(this.WhichSection);
-        BackgroundRectangle.Color = BackgroundColor;
-        Size = this.getSize(screenSize.X, thisSizeY);
+        var thisSizeY = this.Size.Y - 25;
+        this.BackgroundColor = this.Data.GetMagicPlayer(this.WhichSection).Color;
+        this.BackgroundRectangle.Color = this.BackgroundColor;
+        this.Size = this.getSize(screenSize.X, thisSizeY);
         float xLength = screenSize.X / 2;
         float yLength = screenSize.Y / this.numSections;
 
         switch (this.WhichSection)
         {
             case Section.TopLeft:
-                RotationDegrees = left;
-                Position = new Vector2(xLength, 0);
+                this.RotationDegrees = left;
+                this.Position = new Vector2(xLength, 0);
                 break;
             case Section.TopRight:
-                RotationDegrees = right;
-                Position = new Vector2(xLength, yLength * (this.numSections == 2 ? 1 : 1));
+                this.RotationDegrees = right;
+                this.Position = new Vector2(xLength, yLength * (this.numSections == 2 ? 1 : 1));
                 break;
             case Section.BotLeft:
-                RotationDegrees = left;
-                Position = new Vector2(xLength, yLength * (this.numSections == 2 ? 1 : 2));
+                this.RotationDegrees = left;
+                this.Position = new Vector2(xLength, yLength * (this.numSections == 2 ? 1 : 2));
                 break;
             case Section.BotRight:
-                RotationDegrees = right;
-                Position = new Vector2(xLength, screenSize.Y);
+                this.RotationDegrees = right;
+                this.Position = new Vector2(xLength, screenSize.Y);
                 break;
             case Section.MidLeft:
-                RotationDegrees = left;
-                Position = new Vector2(xLength, yLength);
+                this.RotationDegrees = left;
+                this.Position = new Vector2(xLength, yLength);
                 break;
             case Section.MidRight:
-                RotationDegrees = right;
-                Position = new Vector2(xLength, yLength * 2);
+                this.RotationDegrees = right;
+                this.Position = new Vector2(xLength, yLength * 2);
                 break;
             case Section.Top:
-                RotationDegrees = 180f;
-                Position = new Vector2(Size.X, screenSize.Y / 2.0f);
+                this.RotationDegrees = 180f;
+                this.Position = new Vector2(this.Size.X, screenSize.Y / 2.0f);
                 break;
             case Section.Bot:
-                Position = new Vector2(0, screenSize.Y / 2.0f);
+                this.Position = new Vector2(0, screenSize.Y / 2.0f);
                 break;
             default:
                 GD.PrintErr("WTF MagicSection");
@@ -108,7 +108,7 @@ public partial class MagicSection : Control
         this.AddButton.Pressed += this.AddPressed;
         this.SubtractButton.Pressed += this.SubtractPressed;
         this.CenterButton.Pressed += this.OnUserButtonPressed;
-        SetHealthLabel(this.Data.GetMagicHealth(this.WhichSection).ToString());
+        this.SetHealthLabel(this.Data.GetMagicPlayer(this.WhichSection).Health.ToString());
 
         this.doubleClickTimer.WaitTime = this.doubleClickDelay;
         this.doubleClickTimer.OneShot = true;
@@ -130,23 +130,21 @@ public partial class MagicSection : Control
 
     private void SetHealthLabel(string text)
     {
-        this.RichHealthLabel.Text = $"[u]{text}[/u]";
+        this.RichHealthLabel.SetLabel(text);
     }
 
     private void ButtonPressed(bool healed)
     {
-        int health = Data.GetMagicHealth(this.WhichSection);
-        health += healed ? 1 : -1;
-        if (health < 0)
+        var playerData = this.Data.GetMagicPlayer(this.WhichSection);
+        if (!healed && playerData.Health <= 0)
         {
-            health = 0;
             this.CallDeferred(nameof(this.StopHover), healed ? AddButton : SubtractButton);
             return;
         }
-
-        Data.SetMagicHealth(this.WhichSection, health);
-        SetHealthLabel(Data.GetMagicHealth(this.WhichSection).ToString());
-        if (Data.AudioEnabled)
+        playerData.IncrementHealth(healed);
+        int health = playerData.Health;
+        this.SetHealthLabel(playerData.Health.ToString());
+        if (this.Data.AudioEnabled)
         {
             AudioStreamPool.SoundType typeToPlay = AudioStreamPool.SoundType.Heal;
             if (!healed)
@@ -166,11 +164,11 @@ public partial class MagicSection : Control
 
     private void SubtractPressed()
     {
-        ButtonPressed(false);
+        this.ButtonPressed(false);
     }
     private void AddPressed()
     {
-        ButtonPressed(true);
+        this.ButtonPressed(true);
     }
 
     private void StopHover(Button button)
@@ -227,7 +225,7 @@ public partial class MagicSection : Control
             case 3:
                 // triple tap
                 SetSelected?.Invoke(this.WhichSection);
-                GetTree().ChangeSceneToFile("res://Scenes/Magic/PlayerEdit.tscn");
+                this.GetTree().ChangeSceneToFile("res://Scenes/Magic/PlayerEdit.tscn");
                 break;
             default:
                 break;

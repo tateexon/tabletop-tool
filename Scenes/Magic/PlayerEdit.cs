@@ -20,7 +20,7 @@ public partial class PlayerEdit : Control
 
 	public override void _Ready()
 	{
-		Color c = data.GetMagicColor(data.ActiveSection);
+		Color c = this.data.GetMagicPlayer(this.data.ActiveSection).Color;
 		this.r.Text = ((int)c.R8).ToString();
 		this.g.Text = ((int)c.G8).ToString();
 		this.b.Text = ((int)c.B8).ToString();
@@ -41,18 +41,18 @@ public partial class PlayerEdit : Control
 
     public override void _Process(double delta)
     {
-        this.backgroundColor.Color = data.GetMagicColor(data.ActiveSection);
+        this.backgroundColor.Color = this.data.GetMagicPlayer(data.ActiveSection).Color;
     }
 
 
 	private void OnColorChanged()
 	{
-		this.backgroundColor.Color = this.data.GetMagicColor(this.data.ActiveSection);
+		this.backgroundColor.Color = this.data.GetMagicPlayer(this.data.ActiveSection).Color;
 	}
 
 	private void OnBackPressed()
 	{
-		GetTree().ChangeSceneToFile(this.data.SentFromScene);
+		this.GetTree().ChangeSceneToFile(this.data.SentFromScene);
 	}
 
 }
