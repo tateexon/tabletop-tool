@@ -58,7 +58,7 @@ public partial class MagicSection : Control
         var thisSizeY = this.Size.Y - 25;
         this.BackgroundColor = this.Data.GetMagicPlayer(this.WhichSection).Color;
         this.BackgroundRectangle.Color = this.BackgroundColor;
-        this.Size = this.getSize(screenSize.X, thisSizeY);
+        var size = this.getSize(screenSize.X, thisSizeY);
         float xLength = screenSize.X / 2;
         float yLength = screenSize.Y / this.numSections;
 
@@ -90,7 +90,7 @@ public partial class MagicSection : Control
                 break;
             case Section.Top:
                 this.RotationDegrees = 180f;
-                this.Position = new Vector2(this.Size.X, screenSize.Y / 2.0f);
+                this.Position = new Vector2(size.X, screenSize.Y / 2.0f);
                 break;
             case Section.Bot:
                 this.Position = new Vector2(0, screenSize.Y / 2.0f);
@@ -99,7 +99,12 @@ public partial class MagicSection : Control
                 GD.PrintErr("WTF MagicSection");
                 break;
         }
+        this.CallDeferred(nameof(this.LoadDeferred), size);
+    }
 
+    private void LoadDeferred(Vector2 size)
+    {
+        Callable.From(() => Size = size).CallDeferred();
         if (this.numSections == 3)
         {
             this.RichHealthLabel.AddThemeFontSizeOverride("normal_font_size", 250);
