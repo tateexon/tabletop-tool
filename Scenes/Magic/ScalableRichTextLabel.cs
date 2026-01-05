@@ -27,15 +27,15 @@ public partial class ScalableRichTextLabel : RichTextLabel
 		{
 			return;
 		}
-		this.baseText = text;
 		int charCount = text.ToCharArray().Length;
 
-		if (charCount == this.charCount && this.previousSize == this.Size)
+		if (this.baseText == text && charCount == this.charCount && this.previousSize == this.Size)
 		{
 			return;
 		}
 
-		GD.Print("TEXT: find size");
+		this.baseText = text;
+
 		string tmpChars = "";
 		for (int i = 0; i < charCount; i++)
 		{
