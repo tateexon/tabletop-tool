@@ -51,8 +51,6 @@ public partial class MagicSection : Control
     private const float left = 90f;
     private const float right = -90f;
 
-    private bool needsSizeUpdate = false;
-
     public override void _Ready()
     {
         var screenSize = this.GetViewport().GetVisibleRect().Size;
@@ -102,21 +100,10 @@ public partial class MagicSection : Control
                 break;
         }
 
-        this.needsSizeUpdate = true;
-
         // Note: this causes debugger warnings
         // but doing it the proper way seems to call the resize of child controls up to 21 times so leave this how it is
         this.Size = size;
-    }
 
-    public override void _Process(double delta)
-    {
-        if (!this.needsSizeUpdate)
-        {
-            return;
-        }
-
-        this.needsSizeUpdate = false;
         if (this.numSections == 3)
         {
             this.RichHealthLabel.AddThemeFontSizeOverride("normal_font_size", 250);
